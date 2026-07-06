@@ -44,22 +44,6 @@ if [ "$SYS_ARCH" != "x86_64" ]; then
   exit 1
 fi
 
-# Helper function to check if a URL exists
-url_exists() {
-  local url="$1"
-  if command -v curl >/dev/null 2>&1; then
-    local status
-    status=$(curl -L -s -o /dev/null -I -w "%{http_code}" -H "Cache-Control: no-cache" -H "Pragma: no-cache" "$url" || true)
-    if [ "$status" = "200" ]; then
-      return 0
-    fi
-  else
-    if wget --spider -q --header="Cache-Control: no-cache" --header="Pragma: no-cache" "$url" >/dev/null 2>&1; then
-      return 0
-    fi
-  fi
-  return 1
-}
 
 # Helper function to verify sha256 hash
 verify_hash() {
@@ -122,11 +106,6 @@ mkdir -p "$DOWNLOAD_DIR"
 GUI_URL="https://github.com/immo2n/TuneLister-dist/releases/download/${LATEST_VERSION}/tunelister-online"
 GUI_HASH_URL="https://github.com/immo2n/TuneLister-dist/releases/download/${LATEST_VERSION}/tunelister-online.hash"
 
-if ! url_exists "$GUI_URL" || ! url_exists "$GUI_HASH_URL"; then
-  error "Installation files not found for version ${BOLD}${LATEST_VERSION}${NC} on architecture x86_64."
-  exit 1
-fi
-
 INSTALL_DIR="$HOME/.TuneLister"
 mkdir -p "$INSTALL_DIR"
 
@@ -142,11 +121,11 @@ fi
 if [ "$UP_TO_DATE" = false ]; then
   info "Downloading TuneLister from: ${BLUE}${GUI_URL}${NC}"
   if command -v curl >/dev/null 2>&1; then
-    curl -L -H "Cache-Control: no-cache" -H "Pragma: no-cache" -o "$DOWNLOAD_DIR/tunelister-online" "$GUI_URL"
-    curl -L -H "Cache-Control: no-cache" -H "Pragma: no-cache" -o "$DOWNLOAD_DIR/tunelister-online.hash" "$GUI_HASH_URL"
+    curl -L -f -H "User-Agent: TuneLister-Installer" -H "Cache-Control: no-cache" -H "Pragma: no-cache" -o "$DOWNLOAD_DIR/tunelister-online" "$GUI_URL" || { error "Failed to download TuneLister from $GUI_URL. It might not be released yet."; exit 1; }
+    curl -L -f -H "User-Agent: TuneLister-Installer" -H "Cache-Control: no-cache" -H "Pragma: no-cache" -o "$DOWNLOAD_DIR/tunelister-online.hash" "$GUI_HASH_URL" || { error "Failed to download TuneLister checksum from $GUI_HASH_URL. It might not be released yet."; exit 1; }
   else
-    wget --header="Cache-Control: no-cache" --header="Pragma: no-cache" -O "$DOWNLOAD_DIR/tunelister-online" "$GUI_URL"
-    wget --header="Cache-Control: no-cache" --header="Pragma: no-cache" -O "$DOWNLOAD_DIR/tunelister-online.hash" "$GUI_HASH_URL"
+    wget --user-agent="TuneLister-Installer" --header="Cache-Control: no-cache" --header="Pragma: no-cache" -O "$DOWNLOAD_DIR/tunelister-online" "$GUI_URL" || { error "Failed to download TuneLister from $GUI_URL. It might not be released yet."; exit 1; }
+    wget --user-agent="TuneLister-Installer" --header="Cache-Control: no-cache" --header="Pragma: no-cache" -O "$DOWNLOAD_DIR/tunelister-online.hash" "$GUI_HASH_URL" || { error "Failed to download TuneLister checksum from $GUI_HASH_URL. It might not be released yet."; exit 1; }
   fi
 
   info "Verifying integrity of TuneLister..."
