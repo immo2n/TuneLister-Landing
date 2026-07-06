@@ -89,32 +89,25 @@ verify_hash() {
 
 # 2. Check latest version
 info "Checking latest release version..."
-LATEST_JSON_URL="https://raw.githubusercontent.com/immo2n/TuneLister-dist/main/latest.json"
+LATEST_RELEASE_API="https://api.github.com/repos/immo2n/TuneLister-dist/releases/latest"
 
 if command -v curl >/dev/null 2>&1; then
-  JSON_DATA=$(curl -s -H "Cache-Control: no-cache" -H "Pragma: no-cache" "$LATEST_JSON_URL" || true)
+  JSON_DATA=$(curl -s -L -H "User-Agent: TuneLister-Installer" -H "Cache-Control: no-cache" -H "Pragma: no-cache" "$LATEST_RELEASE_API" || true)
 else
-  JSON_DATA=$(wget -qO- --header="Cache-Control: no-cache" --header="Pragma: no-cache" "$LATEST_JSON_URL" || true)
+  JSON_DATA=$(wget -qO- --user-agent="TuneLister-Installer" --header="Cache-Control: no-cache" --header="Pragma: no-cache" "$LATEST_RELEASE_API" || true)
 fi
 
-VERSION_PART=""
-BUILD_PART=""
+LATEST_VERSION=""
 if [ -n "$JSON_DATA" ]; then
-  if echo "$JSON_DATA" | grep -qP '"version":' 2>/dev/null; then
-    VERSION_PART=$(echo "$JSON_DATA" | grep -oP '"version":\s*"\K[^"]+' || true)
-    BUILD_PART=$(echo "$JSON_DATA" | grep -oP '"build_name":\s*"\K[^"]+' || true)
-  else
-    VERSION_PART=$(echo "$JSON_DATA" | grep -o '"version":[^,]*' | cut -d'"' -f4 || true)
-    BUILD_PART=$(echo "$JSON_DATA" | grep -o '"build_name":[^,]*' | cut -d'"' -f4 || true)
+  if command -v python3 >/dev/null 2>&1; then
+    LATEST_VERSION=$(echo "$JSON_DATA" | python3 -c "import sys, json; print(sys.stdin.read().split('\"tag_name\":')[1].split('\"')[1])" 2>/dev/null)
+  fi
+  if [ -z "$LATEST_VERSION" ]; then
+    LATEST_VERSION=$(echo "$JSON_DATA" | grep -o '"tag_name": *"[^"]*"' | head -n1 | cut -d'"' -f4 || true)
   fi
 fi
 
-if [ -n "$VERSION_PART" ]; then
-  if [ -n "$BUILD_PART" ]; then
-    LATEST_VERSION="${VERSION_PART}-${BUILD_PART}"
-  else
-    LATEST_VERSION="${VERSION_PART}"
-  fi
+if [ -n "$LATEST_VERSION" ]; then
   success "Latest version resolved: ${BOLD}${LATEST_VERSION}${NC}"
 else
   LATEST_VERSION="1.0.0-stable"
@@ -126,10 +119,8 @@ DOWNLOAD_DIR="/tmp/tunelister-install"
 rm -rf "$DOWNLOAD_DIR"
 mkdir -p "$DOWNLOAD_DIR"
 
-DIST_BASE_URL="https://raw.githubusercontent.com/immo2n/TuneLister-dist/main/${LATEST_VERSION}/linux"
-
-GUI_URL="${DIST_BASE_URL}/tunelister-online"
-GUI_HASH_URL="${DIST_BASE_URL}/tunelister-online.hash"
+GUI_URL="https://github.com/immo2n/TuneLister-dist/releases/download/${LATEST_VERSION}/tunelister-online"
+GUI_HASH_URL="https://github.com/immo2n/TuneLister-dist/releases/download/${LATEST_VERSION}/tunelister-online.hash"
 
 if ! url_exists "$GUI_URL" || ! url_exists "$GUI_HASH_URL"; then
   error "Installation files not found for version ${BOLD}${LATEST_VERSION}${NC} on architecture x86_64."
