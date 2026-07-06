@@ -169,7 +169,40 @@ if [ "$UP_TO_DATE" = false ]; then
   chmod +x "$INSTALL_DIR/tunelister-online"
 fi
 
-# 4. Generate the 'uninstall.sh' uninstaller script
+# 4. Download and install external dependencies if missing
+DEPS_BIN_DIR="$INSTALL_DIR/app-data/bin"
+mkdir -p "$DEPS_BIN_DIR"
+
+if [ ! -f "$DEPS_BIN_DIR/yt-dlp" ] || [ ! -f "$DEPS_BIN_DIR/ffmpeg" ]; then
+  info "Downloading Linux dependencies (yt-dlp, ffmpeg)..."
+  DEPS_URL="https://github.com/immo2n/TuneLister-dist/releases/download/deps/linux_deps.zip"
+  
+  if command -v curl >/dev/null 2>&1; then
+    curl -L -o "$DOWNLOAD_DIR/linux_deps.zip" "$DEPS_URL"
+  else
+    wget -O "$DOWNLOAD_DIR/linux_deps.zip" "$DEPS_URL"
+  fi
+  
+  info "Extracting dependencies..."
+  if command -v unzip >/dev/null 2>&1; then
+    unzip -o "$DOWNLOAD_DIR/linux_deps.zip" -d "$DEPS_BIN_DIR" >/dev/null
+    
+    # Rename to match expected backend binary names
+    if [ -f "$DEPS_BIN_DIR/yt-dlp_linux" ]; then
+      mv "$DEPS_BIN_DIR/yt-dlp_linux" "$DEPS_BIN_DIR/yt-dlp"
+    fi
+    if [ -f "$DEPS_BIN_DIR/ffmpeg_linux" ]; then
+      mv "$DEPS_BIN_DIR/ffmpeg_linux" "$DEPS_BIN_DIR/ffmpeg"
+    fi
+    
+    chmod +x "$DEPS_BIN_DIR/yt-dlp" "$DEPS_BIN_DIR/ffmpeg"
+    success "Dependencies installed successfully in app-data/bin."
+  else
+    warn "unzip command not found! Please manually extract ${BLUE}${DOWNLOAD_DIR}/linux_deps.zip${NC} into ${BLUE}${DEPS_BIN_DIR}${NC} and rename the binaries to 'yt-dlp' and 'ffmpeg'."
+  fi
+fi
+
+# 5. Generate the 'uninstall.sh' uninstaller script
 UNINSTALLER_PATH="$INSTALL_DIR/uninstall.sh"
 info "Generating uninstaller script at ${BLUE}${UNINSTALLER_PATH}${NC}..."
 cat << 'EOF' > "$UNINSTALLER_PATH"
@@ -205,9 +238,14 @@ if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
 fi
 
-# Remove application directory ~/.TuneLister containing everything
-echo "[+] Deleting application directory ~/.TuneLister..."
-rm -rf "$HOME/.TuneLister"
+# Remove application files but preserve app-data directory
+echo "[+] Cleaning up application files (preserving your local playlists, history, and cache)..."
+rm -f "$HOME/.TuneLister/tunelister-online"
+rm -f "$HOME/.TuneLister/logo.png"
+
+# Remove itself
+echo "[+] Cleaning up uninstaller..."
+rm -f "$HOME/.TuneLister/uninstall.sh"
 
 echo "=============================================="
 echo "  TuneLister Uninstalled Successfully!"
