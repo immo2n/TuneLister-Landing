@@ -238,6 +238,10 @@ if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
 fi
 
+# Remove uninstaller command symlink
+echo "[+] Removing terminal command symlink..."
+rm -f "$HOME/.local/bin/remove-tunelister"
+
 # Remove application files but preserve app-data directory
 echo "[+] Cleaning up application files (preserving your local playlists, history, and cache)..."
 rm -f "$HOME/.TuneLister/tunelister-online"
@@ -253,6 +257,10 @@ echo "=============================================="
 echo ""
 EOF
 chmod +x "$UNINSTALLER_PATH"
+
+# Generate terminal uninstaller command symlink
+mkdir -p "$HOME/.local/bin"
+ln -sf "$UNINSTALLER_PATH" "$HOME/.local/bin/remove-tunelister"
 
 # 5. Check if Desktop Entry is supported
 DESKTOP_SUPPORTED=false
