@@ -134,4 +134,29 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener('gesturestart', function (event) {
     event.preventDefault();
   });
+
+  // Windows SmartScreen Defender Warning Dialog Logic
+  var defenderModal = document.getElementById("defender-modal");
+
+  document.body.addEventListener("click", function (event) {
+    var anchor = event.target.closest("a");
+    if (anchor && anchor.getAttribute("href") && anchor.getAttribute("href").includes("TuneLister-Installer.exe")) {
+      // Allow download to start instantly, and show the instructional dialog alongside it
+      if (defenderModal) {
+        defenderModal.classList.add("active");
+      }
+    }
+  });
+
+  var closeButtons = ["defender-cancel", "defender-ok-btn", "defender-close-btn"];
+  closeButtons.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("click", function () {
+        if (defenderModal) {
+          defenderModal.classList.remove("active");
+        }
+      });
+    }
+  });
 });

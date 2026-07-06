@@ -344,6 +344,61 @@
     </div>
   </footer>
 
+  <!-- Windows Defender Warning Modal -->
+  <div class="defender-modal" id="defender-modal">
+    <div class="defender-modal-card">
+      <div class="defender-modal-header">
+        <div class="defender-modal-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+        </div>
+        <div class="defender-modal-title">
+          <h3>First-time Windows Installation</h3>
+          <p>TuneLister is 100% safe and open-source. Since it is a new release, Windows Defender might ask for confirmation.</p>
+        </div>
+        <button class="defender-modal-close" id="defender-close-btn" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="defender-steps-grid">
+        <div class="defender-step">
+          <div class="defender-step-header">
+            <div class="defender-step-num">1</div>
+            <div class="defender-step-title">Click "More info"</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.4;">
+            When the "Windows protected your PC" screen appears, click the <strong>More info</strong> link under the text.
+          </p>
+          <img src="defender-1.png" alt="Step 1: Click More info" class="defender-step-img">
+        </div>
+
+        <div class="defender-step">
+          <div class="defender-step-header">
+            <div class="defender-step-num">2</div>
+            <div class="defender-step-title">Click "Run anyway"</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.4;">
+            A new button <strong>Run anyway</strong> will appear at the bottom. Click it to launch the setup installer.
+          </p>
+          <img src="defender-2.png" alt="Step 2: Click Run anyway" class="defender-step-img">
+        </div>
+      </div>
+
+      <div class="defender-modal-footer">
+        <button class="defender-modal-btn confirm" id="defender-ok-btn" style="width: 100%; text-align: center;">Got it, thanks!</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 
