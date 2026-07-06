@@ -136,12 +136,12 @@ if ! url_exists "$GUI_URL" || ! url_exists "$GUI_HASH_URL"; then
   exit 1
 fi
 
-BIN_DIR="$HOME/.local/bin"
-mkdir -p "$BIN_DIR"
+INSTALL_DIR="$HOME/.TuneLister"
+mkdir -p "$INSTALL_DIR"
 
 UP_TO_DATE=false
-if [ -f "$BIN_DIR/tunelister-online" ]; then
-  CURRENT_SIG=$("$BIN_DIR/tunelister-online" -v 2>/dev/null || true)
+if [ -f "$INSTALL_DIR/tunelister-online" ]; then
+  CURRENT_SIG=$("$INSTALL_DIR/tunelister-online" -v 2>/dev/null || true)
   if [[ "$CURRENT_SIG" == *"${LATEST_VERSION}"* ]]; then
     UP_TO_DATE=true
     success "TuneLister is already at the latest version (${LATEST_VERSION}). Skipping download."
@@ -164,17 +164,13 @@ if [ "$UP_TO_DATE" = false ]; then
     exit 1
   fi
 
-  info "Installing TuneLister to ${BLUE}${BIN_DIR}${NC}..."
-  cp "$DOWNLOAD_DIR/tunelister-online" "$BIN_DIR/tunelister-online"
-  chmod +x "$BIN_DIR/tunelister-online"
+  info "Installing TuneLister to ${BLUE}${INSTALL_DIR}${NC}..."
+  cp "$DOWNLOAD_DIR/tunelister-online" "$INSTALL_DIR/tunelister-online"
+  chmod +x "$INSTALL_DIR/tunelister-online"
 fi
 
-# 4. Create terminal command symlink
-info "Creating terminal symlink..."
-ln -sf "$BIN_DIR/tunelister-online" "$BIN_DIR/tunelister"
-
-# 5. Generate the 'remove-tunelister' uninstaller script
-UNINSTALLER_PATH="$BIN_DIR/remove-tunelister"
+# 4. Generate the 'uninstall.sh' uninstaller script
+UNINSTALLER_PATH="$INSTALL_DIR/uninstall.sh"
 info "Generating uninstaller script at ${BLUE}${UNINSTALLER_PATH}${NC}..."
 cat << 'EOF' > "$UNINSTALLER_PATH"
 #!/bin/bash
@@ -198,28 +194,20 @@ fi
 
 # Stop the application if running
 echo "[+] Stopping any running instances of TuneLister..."
-pkill -f tunelister-online || true
-pkill -f tunelister || true
+pkill -x tunelister-onli || pkill -x tunelister-online || true
 
-# Remove binary files and symlinks
-echo "[+] Removing binaries and command symlinks..."
-rm -f "$HOME/.local/bin/tunelister-online"
-rm -f "$HOME/.local/bin/tunelister"
-
-# Remove desktop shortcuts and app assets
-echo "[+] Removing desktop shortcut and app assets..."
+# Remove desktop shortcuts
+echo "[+] Removing desktop shortcut..."
 rm -f "$HOME/.local/share/applications/tunelister.desktop"
-rm -rf "$HOME/.config/TuneLister"
-rm -rf "$HOME/.cache/TuneLister"
 
 # Update desktop shortcut database if helper utility is present
 if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
 fi
 
-# Remove itself
-echo "[+] Cleaning up uninstaller script..."
-rm -f "$HOME/.local/bin/remove-tunelister"
+# Remove application directory ~/.TuneLister containing everything
+echo "[+] Deleting application directory ~/.TuneLister..."
+rm -rf "$HOME/.TuneLister"
 
 echo "=============================================="
 echo "  TuneLister Uninstalled Successfully!"
@@ -228,26 +216,7 @@ echo ""
 EOF
 chmod +x "$UNINSTALLER_PATH"
 
-# 6. Ensure bin directory is in user PATH
-SHELL_CONFIGS=("$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile")
-PATH_ADDED=false
-
-if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
-  info "Adding ${BLUE}${BIN_DIR}${NC} to PATH in shell configuration..."
-  for CONFIG in "${SHELL_CONFIGS[@]}"; do
-    if [ -f "$CONFIG" ]; then
-      # Check if already present in file to prevent duplicates
-      if ! grep -q "$BIN_DIR" "$CONFIG"; then
-        echo -e '\n# Added by TuneLister Installer' >> "$CONFIG"
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$CONFIG"
-        PATH_ADDED=true
-      fi
-    fi
-  done
-  export PATH="$BIN_DIR:$PATH"
-fi
-
-# 7. Check if Desktop Entry is supported
+# 5. Check if Desktop Entry is supported
 DESKTOP_SUPPORTED=false
 if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
   DESKTOP_SUPPORTED=true
@@ -260,13 +229,9 @@ if [ "$DESKTOP_SUPPORTED" = true ]; then
   APPS_DIR="$HOME/.local/share/applications"
   mkdir -p "$APPS_DIR"
   
-  # Ensure app config dir exists
-  CONFIG_DIR="$HOME/.config/TuneLister"
-  mkdir -p "$CONFIG_DIR"
-  
-  # Download logo as icon to ~/.config/TuneLister/logo.png
-  ICON_PATH="$CONFIG_DIR/logo.png"
-  ICON_URL="https://tunelister.vercel.app/logo.png" # Standard path, matches Vercel deployment
+  # Download logo as icon to ~/.TuneLister/logo.png
+  ICON_PATH="$INSTALL_DIR/logo.png"
+  ICON_URL="https://tunelister.vercel.app/logo.png"
   
   info "Downloading app icon to ${BLUE}${ICON_PATH}${NC}..."
   if command -v curl >/dev/null 2>&1; then
@@ -281,7 +246,7 @@ if [ "$DESKTOP_SUPPORTED" = true ]; then
 Type=Application
 Name=TuneLister
 Comment=Your Music, Unleashed - Standalone Audio Streamer
-Exec=$BIN_DIR/tunelister-online
+Exec=$INSTALL_DIR/tunelister-online
 Icon=$ICON_PATH
 Terminal=false
 Categories=AudioVideo;Audio;Player;Utility;
@@ -296,30 +261,25 @@ EOF
   success "Desktop application entry registered successfully."
 fi
 
-# 8. Clean up download cache
+# 6. Clean up download cache
 rm -rf "$DOWNLOAD_DIR"
 
-# 9. Success message
+# 7. Success message
 echo ""
 echo -e "${GREEN}${BOLD}┌──────────────────────────────────────────────────────────────┐${NC}"
 echo -e "${GREEN}${BOLD}│             TuneLister Installed Successfully!               │${NC}"
 echo -e "${GREEN}${BOLD}└──────────────────────────────────────────────────────────────┘${NC}"
 echo -e "  ${BOLD}Version:${NC}      ${GREEN}${LATEST_VERSION}${NC}"
-echo -e "  ${BOLD}GUI Binary:${NC}   ${BLUE}${BIN_DIR}/tunelister-online${NC}"
-echo -e "  ${BOLD}CLI Command:${NC}  ${CYAN}tunelister${NC}"
-echo -e "  ${BOLD}Uninstall:${NC}    ${RED}remove-tunelister${NC}"
+echo -e "  ${BOLD}GUI Binary:${NC}   ${BLUE}${INSTALL_DIR}/tunelister-online${NC}"
+echo -e "  ${BOLD}App Directory:${NC}${CYAN}~/.TuneLister${NC}"
+echo -e "  ${BOLD}Uninstall:${NC}    ${RED}~/.TuneLister/uninstall.sh${NC}"
 echo -e "${GREEN}${BOLD}────────────────────────────────────────────────────────────────${NC}"
 echo ""
-
-if [ "$PATH_ADDED" = true ]; then
-  warn "We added ${BLUE}${BIN_DIR}${NC} to your shell PATH."
-  echo -e "Please restart your terminal session or run: ${BOLD}source ~/.bashrc${NC}"
-fi
 
 # Start the desktop application
 if [ "$DESKTOP_SUPPORTED" = true ]; then
   info "Starting TuneLister Desktop App..."
-  nohup "$BIN_DIR/tunelister-online" >/dev/null 2>&1 &
+  nohup "$INSTALL_DIR/tunelister-online" >/dev/null 2>&1 &
   success "App started! Enjoy your music!"
 fi
 echo ""

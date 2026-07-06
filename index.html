@@ -346,9 +346,7 @@
         </div>
         <div class="faq-item">
           <h3>Does the Linux quick installer require root permissions?</h3>
-          <p>No. The install script installs completely inside your local user space (`~/.local/bin` and
-            `~/.config/TuneLister`). No sudo or administrative privileges are needed, keeping your system completely
-            safe.</p>
+          <p>No. The install script installs completely inside your local user home directory (`~/.TuneLister`). No sudo or administrative privileges are needed, keeping your system completely safe.</p>
         </div>
         <div class="faq-item">
           <h3>How secure is the database integration?</h3>
@@ -358,8 +356,7 @@
         <div class="faq-item">
           <h3>How can I uninstall the application?</h3>
           <p>On Windows, you can simply run the default uninstaller from the settings page or control panel. On Linux,
-            the quick script generates an automatic uninstaller script: run `remove-tunelister` in your terminal to
-            completely wipe all associated files and cache.</p>
+            simply run the uninstaller script: `~/.TuneLister/uninstall.sh` in your terminal to completely wipe all associated files, application data, and caches.</p>
         </div>
       </div>
     </section>
