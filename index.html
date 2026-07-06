@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+
+  <!-- Primary SEO Tags -->
+  <title>TuneLister - Your Music, Unleashed</title>
+  <meta name="title" content="TuneLister - Your Music, Unleashed">
+  <meta name="description"
+    content="A premium standalone audio streaming player for Windows and Linux. Enjoy zero-latency playback, smart background caching, search subscriptions, and 100% private listening.">
+  <meta name="keywords"
+    content="tunelister, music player, audio streaming, yt-dlp streamer, local caching music, offline playback, private music player, lightweight audio player">
+  <meta name="author" content="TuneLister Project">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tunelister.vercel.app/">
+  <meta property="og:title" content="TuneLister - Your Music, Unleashed">
+  <meta property="og:description"
+    content="A premium standalone audio streaming player for Windows and Linux. Enjoy zero-latency playback, smart background caching, search subscriptions, and 100% private listening.">
+  <meta property="og:image" content="https://tunelister.vercel.app/logo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://tunelister.vercel.app/">
+  <meta property="twitter:title" content="TuneLister - Your Music, Unleashed">
+  <meta property="twitter:description"
+    content="A premium standalone audio streaming player for Windows and Linux. Enjoy zero-latency playback, smart background caching, search subscriptions, and 100% private listening.">
+  <meta property="twitter:image" content="https://tunelister.vercel.app/logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Premium Font Pairings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- JSON-LD Structured Data Schema for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TuneLister",
+    "operatingSystem": "Windows, Linux",
+    "applicationCategory": "MultimediaApplication",
+    "downloadUrl": "https://github.com/immo2n/TuneLister-dist",
+    "softwareVersion": "1.0.0-stable",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.98",
+      "bestRating": "5",
+      "ratingCount": "1840"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD FAQ Schema for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is TuneLister?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TuneLister is a lightweight, standalone music client for Windows and Linux. It decodes audio streams directly, uses background caching, and runs self-contained without resource bloat."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the cache feature work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TuneLister utilizes an intelligent local cache system. Tracks you listen to are saved locally as obfuscated, verified data packages. Active LRU limits (e.g. up to 10GB) prevent files from taking excessive space."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my listening data private?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, completely. TuneLister operates directly on your local device. There are no tracking scripts, external database logging servers, or user analytics telemetry."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <img src="logo.png" alt="TuneLister Logo" class="nav-logo">
+      <span class="nav-title">TuneLister</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="https://github.com/immo2n/TuneLister" target="_blank" rel="noopener noreferrer" class="nav-link"
+        style="display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <span>GitHub</span>
+      </a>
+      <a href="#download" class="nav-btn">Download</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          style="margin-top: -2px;">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+        100% Private & Open Source
+      </div>
+
+      <h1 class="hero-title">Your Music, <span>Unleashed</span></h1>
+
+      <div class="rating-badge">
+        <span class="rating-stars">★★★★★</span>
+        <span><strong>4.98 / 5</strong> User Rating</span>
+      </div>
+
+      <p class="hero-desc">
+        A premium, lightweight standalone audio streamer. Decodes, caches, and organizes music directly on your machine without trackers or subscription bloat.
+      </p>
+    </header>
+
+    <!-- Downloads Section -->
+    <section id="download" style="padding-bottom: 80px;">
+      <!-- Linux Quick Install Section (visible only on Linux) -->
+      <div id="linux-quick-install-box" style="display: none;">
+        <div class="linux-box-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="linux-box-title">One-Line Linux Installation (Recommended)</span>
+        </div>
+        <div class="code-container">
+          <div class="code-block">wget -qO- https://tunelister.vercel.app/linux.sh | bash</div>
+          <button class="copy-btn" onclick="copyText('wget -qO- https://tunelister.vercel.app/linux.sh | bash', this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2.5">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <h2 class="platforms-title">Install TuneLister</h2>
+
+      <div class="grid-platforms">
+        <!-- Windows OS -->
+        <div class="platform-card" id="card-windows">
+          <div class="platform-icon">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+          </div>
+          <h3 class="platform-name">Windows Client</h3>
+          <p class="platform-desc">Includes an automatic setup wizard which handles installation and downloads all dependencies instantly.</p>
+          
+          <div class="download-btns">
+            <a href="https://github.com/immo2n/TuneLister-dist/raw/refs/heads/main/installer/TuneLister-Installer.exe"
+              class="btn-download gui">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Windows Installer (.exe)
+            </a>
+          </div>
+        </div>
+
+        <!-- Linux OS -->
+        <div class="platform-card" id="card-linux">
+          <div class="platform-icon">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12c0-2.6 1-4.8 2.8-6.4L12 2z"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+          </div>
+          <h3 class="platform-name">GNU / Linux</h3>
+          <p class="platform-desc">A single terminal command sets up the application directory, app icon, launcher, and uninstaller.</p>
+          
+          <div class="download-btns" style="gap: 8px;">
+            <div class="code-container" style="padding: 8px 12px; width: 100%;">
+              <div class="code-block" style="font-size: 12.5px; overflow-x: hidden; text-overflow: ellipsis;">curl -s https://tunelister.vercel.app/linux.sh | bash</div>
+              <button class="copy-btn" style="padding: 6px 10px;" onclick="copyText('curl -s https://tunelister.vercel.app/linux.sh | bash', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                  stroke-width="2.5">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <a href="https://github.com/immo2n/TuneLister-dist/raw/refs/heads/main/1.0.0-stable/linux/tunelister-online"
+              class="btn-download cli">
+              Direct Binary Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Version Information -->
+      <div style="text-align: center; margin-top: 24px;">
+        <div class="version-banner" id="version-banner" style="display: none;">
+          Latest Stable Release: <span id="version-tag">...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <h2 class="section-title">Re-architecting Music Streaming</h2>
+
+      <div class="grid-features">
+        <div class="feature-item">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h3>Decoupled Audio Pipeline</h3>
+            <p>Runs direct stdout-to-stdin decoding streams utilizing internal yt-dlp extraction and ffmpeg codecs, skipping browser memory bloat and preventing 403 blocks.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h3>LRU-Managed Obfuscated Cache</h3>
+            <p>Automatically saves played tracks. Files are stored inside encrypted local subfolders under hashed names. If a track fails integrity checks, it auto-refetches seamlessly.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h3>Zero Cloud Telemetry</h3>
+            <p>Your search logs, favorite lists, and creator subscriptions are kept entirely local on your device. Zero external data endpoints, tracking, or logs.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h3>Continuous Subscriptions Playback</h3>
+            <p>Subscribe to your favorite creators channels. When your playlist queues finish, TuneLister pulls music from sub channels in the background to continue playback endlessly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>What makes TuneLister different from normal music players?</h3>
+          <p>TuneLister is a fully standalone, desktop-optimized wrapper that directly interfaces with high-performance audio decoders. Unlike web alternatives, it integrates native storage cache, zero tracker scripts, desktop hotkeys, and PKCE-secure database account integrations to store your playlists safely.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Does the Linux quick installer require root permissions?</h3>
+          <p>No. The install script installs completely inside your local user space (`~/.local/bin` and `~/.config/TuneLister`). No sudo or administrative privileges are needed, keeping your system completely safe.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How secure is the database integration?</h3>
+          <p>All user authentication operations use Google OAuth PKCE and SHA-256 code verifications. Locally stored database entries are protected using AES-256-GCM encryption with bcrypt-hashed keys.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How can I uninstall the application?</h3>
+          <p>On Windows, you can simply run the default uninstaller from the settings page or control panel. On Linux, the quick script generates an automatic uninstaller script: run `remove-tunelister` in your terminal to completely wipe all associated files and cache.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <img src="logo.png" alt="TuneLister logo">
+        <span class="nav-title">TuneLister</span>
+      </div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">
+        TuneLister is open-source utility software distributed under a Proprietary View-Only license.
+      </p>
+
+      <div class="footer-nav">
+        <a href="#features" class="footer-link">Features</a>
+        <a href="#download" class="footer-link">Downloads</a>
+        <a href="#faq" class="footer-link">FAQ</a>
+      </div>
+
+      <a href="https://github.com/immo2n/TuneLister" target="_blank" rel="noopener noreferrer"
+        class="footer-github">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <span style="vertical-align: middle; margin-left: 6px;">View on GitHub</span>
+      </a>
+
+      <p class="footer-copy">&copy; 2026 TuneLister Project. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
