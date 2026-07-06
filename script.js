@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
     navigator.clipboard.writeText(text).then(function () {
       var originalHTML = btn.innerHTML;
       btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span style="vertical-align: middle;">Done</span>';
-      btn.style.background = "var(--secondary-green)";
-      btn.style.borderColor = "var(--secondary-green)";
+      btn.style.background = "#1db954";
+      btn.style.borderColor = "#1db954";
       btn.style.color = "#000000";
       setTimeout(function () {
         btn.innerHTML = originalHTML;

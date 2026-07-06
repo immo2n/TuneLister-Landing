@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <title>TuneLister - App Gallery</title>
+  <meta name="description" content="Explore TuneLister's design, views, and lightweight audio interface screenshots.">
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Premium Font Pairings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    .gallery-header {
+      padding-top: 140px;
+      padding-bottom: 40px;
+      text-align: center;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-bottom: 80px;
+    }
+    @media (min-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .gallery-item.featured {
+        grid-column: span 2;
+      }
+    }
+    .gallery-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 12px;
+      box-sizing: border-box;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: var(--transition-smooth);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(29, 185, 84, 0.3);
+      box-shadow: 0 16px 40px rgba(29, 185, 84, 0.1);
+    }
+    .gallery-img-wrapper {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.6);
+    }
+    .gallery-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.02);
+    }
+    .gallery-info {
+      padding: 16px 8px 8px 8px;
+    }
+    .gallery-title {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 6px 0;
+    }
+    .gallery-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-brand">
+        <img src="logo.png" alt="TuneLister Logo" class="nav-logo">
+        <span class="nav-title">TuneLister</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Back to Home</a>
+        <a href="index.html#download" class="nav-btn">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header class="gallery-header">
+      <div class="badge">Visual Showcase</div>
+      <h1 class="hero-title" style="font-size: 48px; max-width: 600px; margin-bottom: 12px;">App Interface <span>Gallery</span></h1>
+      <p class="hero-desc" style="font-size: 16px; max-width: 500px; margin-bottom: 0;">Explore the native desktop design of the client client interface across operating systems.</p>
+    </header>
+
+    <main class="gallery-grid">
+      <!-- Favourites Screen (Featured) -->
+      <div class="gallery-item featured">
+        <div class="gallery-img-wrapper">
+          <img src="img/favourites.png" alt="Main Favorites Dashboard View" class="gallery-img">
+        </div>
+        <div class="gallery-info">
+          <h2 class="gallery-title">🌟 Main Favorites Dashboard</h2>
+          <p class="gallery-desc">Your central audio hub. Access saved tracks with instantaneous decryption playback, search shortcuts, and synchronization statuses.</p>
+        </div>
+      </div>
+
+      <!-- Home Screen -->
+      <div class="gallery-item">
+        <div class="gallery-img-wrapper">
+          <img src="img/home.png" alt="Home Feed View" class="gallery-img">
+        </div>
+        <div class="gallery-info">
+          <h2 class="gallery-title">🏠 Home Landing Feed</h2>
+          <p class="gallery-desc">Quickly access recently played tracks, explore quick recommendations, and review storage caching stats.</p>
+        </div>
+      </div>
+
+      <!-- Search Screen -->
+      <div class="gallery-item">
+        <div class="gallery-img-wrapper">
+          <img src="img/browse.png" alt="Search and Discovery Screen" class="gallery-img">
+        </div>
+        <div class="gallery-info">
+          <h2 class="gallery-title">🔍 Search & Discover</h2>
+          <p class="gallery-desc">Instantaneous query extraction with zero-latency live streaming. Hit or miss caching starts automatically in the background.</p>
+        </div>
+      </div>
+
+      <!-- Subscriptions View -->
+      <div class="gallery-item">
+        <div class="gallery-img-wrapper">
+          <img src="img/subscriptions.png" alt="Creator Channel Subscriptions Feed" class="gallery-img">
+        </div>
+        <div class="gallery-info">
+          <h2 class="gallery-title">📡 Creator Subscriptions</h2>
+          <p class="gallery-desc">Subscribe to content channels. When active audio queues end, the player pulls tracks from subscribed creators to continue streaming.</p>
+        </div>
+      </div>
+
+      <!-- Play Queue Screen -->
+      <div class="gallery-item">
+        <div class="gallery-img-wrapper">
+          <img src="img/play-queue.png" alt="Active Play Queue View" class="gallery-img">
+        </div>
+        <div class="gallery-info">
+          <h2 class="gallery-title">📋 Active Play Queue</h2>
+          <p class="gallery-desc">Easily manage up-next audio schedules. Drag, add, or skip tracks with comprehensive metadata information overlays.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <img src="logo.png" alt="TuneLister logo">
+        <span class="nav-title">TuneLister</span>
+      </div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">
+        TuneLister is open-source utility software distributed under a Proprietary View-Only license.
+      </p>
+
+      <div class="footer-nav">
+        <a href="index.html#features" class="footer-link">Features</a>
+        <a href="index.html#download" class="footer-link">Downloads</a>
+        <a href="index.html#faq" class="footer-link">FAQ</a>
+        <a href="gallery.html" class="footer-link">Gallery</a>
+        <a href="disclaimer.html" class="footer-link">Disclaimer</a>
+      </div>
+
+      <p class="footer-copy">&copy; 2026 TuneLister Project. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
