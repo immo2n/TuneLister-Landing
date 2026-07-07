@@ -73,7 +73,7 @@ verify_hash() {
 
 # 2. Check latest version
 info "Checking latest release version..."
-LATEST_RELEASE_API="https://api.github.com/repos/immo2n/TuneLister-dist/releases/latest"
+LATEST_RELEASE_API="https://immo2n.github.io/TuneLister-dist/latest.json"
 
 if command -v curl >/dev/null 2>&1; then
   JSON_DATA=$(curl -s -L -H "User-Agent: TuneLister-Installer" -H "Cache-Control: no-cache" -H "Pragma: no-cache" "$LATEST_RELEASE_API" || true)
@@ -84,10 +84,14 @@ fi
 LATEST_VERSION=""
 if [ -n "$JSON_DATA" ]; then
   if command -v python3 >/dev/null 2>&1; then
-    LATEST_VERSION=$(echo "$JSON_DATA" | python3 -c "import sys, json; print(sys.stdin.read().split('\"tag_name\":')[1].split('\"')[1])" 2>/dev/null)
+    LATEST_VERSION=$(echo "$JSON_DATA" | python3 -c "import sys, json; data = json.loads(sys.stdin.read()); print(f\"{data['version']}-{data['build_name']}\")" 2>/dev/null)
   fi
   if [ -z "$LATEST_VERSION" ]; then
-    LATEST_VERSION=$(echo "$JSON_DATA" | grep -o '"tag_name": *"[^"]*"' | head -n1 | cut -d'"' -f4 || true)
+    VERSION_VAL=$(echo "$JSON_DATA" | grep -o '"version": *"[^"]*"' | head -n1 | cut -d'"' -f4 || true)
+    BUILD_VAL=$(echo "$JSON_DATA" | grep -o '"build_name": *"[^"]*"' | head -n1 | cut -d'"' -f4 || true)
+    if [ -n "$VERSION_VAL" ] && [ -n "$BUILD_VAL" ]; then
+      LATEST_VERSION="${VERSION_VAL}-${BUILD_VAL}"
+    fi
   fi
 fi
 
